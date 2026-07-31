@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Dump — Nikhil Raj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f0e8; --bg2: #ebe6db; --surface: #fff9f0;
+      --border: #2a2a2a; --border-light: #c8c0b0;
+      --text: #1a1a1a; --text-muted: #555; --text-faint: #888;
+      --tag-bg: #e8e0d0; --tag-text: #1a1a1a; --card-bg: #fff9f0;
+    }
+    [data-theme="dark"] {
+      --bg: #111111; --bg2: #181818; --surface: #1e1e1e;
+      --border: #d4cdc0; --border-light: #333;
+      --text: #e8e0d0; --text-muted: #aaa; --text-faint: #666;
+      --tag-bg: #2a2a2a; --tag-text: #d4cdc0; --card-bg: #1e1e1e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Ubuntu Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+    a { color: inherit; text-decoration: none; }
+    .masthead {
+      border-bottom: 3px double var(--border);
+      padding: 0.75rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .masthead-meta { font-size: 0.65rem; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; }
+    .masthead-meta span { display: block; }
+    .masthead-logo { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; text-align: center; }
+    .masthead-logo small { display: block; font-size: 0.55rem; letter-spacing: 0.2em; font-weight: 400; color: var(--text-muted); margin-top: 0.1rem; }
+    .masthead-right { display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem; }
+    .nav-link {
+      font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted); border: 1px solid var(--border-light);
+      padding: 0.3rem 0.6rem; transition: all 0.2s;
+    }
+    .nav-link:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border); color: var(--text);
+      font-family: 'Ubuntu Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; padding: 0.3rem 0.6rem; cursor: pointer;
+    }
+    .theme-toggle:hover { background: var(--text); color: var(--bg); }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 2rem; }
+    .intro { padding: 3rem 0 2rem; border-bottom: 3px double var(--border); }
+    .section-label {
+      font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--text-muted); border: 1px solid var(--border-light);
+      display: inline-block; padding: 0.2rem 0.6rem; margin-bottom: 1.2rem;
+    }
+    .intro-title { font-size: 2rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.8rem; }
+    .intro-desc { font-size: 0.85rem; line-height: 1.8; color: var(--text-muted); max-width: 620px; }
+
+    .gallery { padding: 3rem 0 5rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+    .photo-card {
+      border: 1px solid var(--border-light);
+      background: var(--card-bg);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .photo-card:hover { border-color: var(--border); transform: translateY(-3px); }
+    .photo-frame {
+      aspect-ratio: 4 / 3;
+      background: var(--tag-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-faint);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-light);
+      overflow: hidden;
+    }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-caption { padding: 1rem 1.2rem; }
+    .photo-caption-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .photo-caption-desc { font-size: 0.72rem; color: var(--text-muted); line-height: 1.6; }
+    .photo-card.blank .photo-frame {
+      border: 1px dashed var(--border-light);
+      font-size: 0.62rem;
+    }
+    .photo-card.blank .photo-caption-title { color: var(--text-faint); }
+
+    footer { border-top: 3px double var(--border); padding: 2rem; text-align: center; }
+    .footer-text { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); }
+    .back-to-top {
+      display: inline-block; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      border: 1px solid var(--border-light); padding: 0.4rem 0.8rem; margin-bottom: 1.5rem;
+      color: var(--text-muted); transition: all 0.2s;
+    }
+    .back-to-top:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    @media (max-width: 800px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .masthead { grid-template-columns: 1fr auto; padding: 0.5rem 1rem; }
+      .masthead-meta.left { display: none; }
+      .container { padding: 0 1rem; }
+      .gallery-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-meta left">
+    <span>VIT CHENNAI, INDIA</span>
+    <span id="edition-date">LOADING...</span>
+  </div>
+  <div class="masthead-logo">
+    Photo Dump
+    <small>Builds, in progress</small>
+  </div>
+  <div class="masthead-right">
+    <a href="index.html" class="nav-link">← Back to Portfolio</a>
+    <button class="theme-toggle" id="theme-btn">
+      <span id="theme-label">Light Mode</span>
+    </button>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="container">
+    <div class="section-label">Field Archive</div>
+    <h1 class="intro-title">The Photo Dump</h1>
+    <p class="intro-desc">
+      Raw shots from builds, before they became polished write-ups — bench setups, wiring that seemed like a good idea at the time, and the occasional smoke. Replace the placeholder frames below with your own images and captions as projects progress.
+    </p>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="container">
+    <div class="gallery-grid">
+
+      <div class="photo-card">
+        <div class="photo-frame">
+          <!-- Replace with: <img src="photos/usv-bench.jpg" alt="USV bench test"> -->
+          + Add Photo
+        </div>
+        <div class="photo-caption">
+          <div class="photo-caption-title">USV Bench Test</div>
+          <div class="photo-caption-desc">Add your caption here — e.g. first dry-run of the thrust setup before the Gazebo sim matched reality.</div>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="photo-frame">
+          + Add Photo
+        </div>
+        <div class="photo-caption">
+          <div class="photo-caption-title">Self Balance Bot — Rig</div>
+          <div class="photo-caption-desc">Add your caption here.</div>
+        </div>
+      </div>
+
+      <div class="photo-card">
+        <div class="photo-frame">
+          + Add Photo
+        </div>
+        <div class="photo-caption">
+          <div class="photo-caption-title">Smart Lamp — Wiring</div>
+          <div class="photo-caption-desc">Add your caption here.</div>
+        </div>
+      </div>
+
+      <div class="photo-card blank">
+        <div class="photo-frame">+ Add Photo</div>
+        <div class="photo-caption">
+          <div class="photo-caption-title">+ New Entry</div>
+          <div class="photo-caption-desc">Duplicate this card for every new photo you add.</div>
+        </div>
+      </div>
+
+      <div class="photo-card blank">
+        <div class="photo-frame">+ Add Photo</div>
+        <div class="photo-caption">
+          <div class="photo-caption-title">+ New Entry</div>
+          <div class="photo-caption-desc">Duplicate this card for every new photo you add.</div>
+        </div>
+      </div>
+
+      <div class="photo-card blank">
+        <div class="photo-frame">+ Add Photo</div>
+        <div class="photo-caption">
+          <div class="photo-caption-title">+ New Entry</div>
+          <div class="photo-caption-desc">Duplicate this card for every new photo you add.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="#" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to Top</a>
+    <p class="footer-text">© 2025 Nikhil Raj &nbsp;|&nbsp; Photo Archive &nbsp;|&nbsp; Built with ♥ from Chennai, India</p>
+  </div>
+</footer>
+
+<script>
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now = new Date();
+  document.getElementById('edition-date').textContent =
+    `${months[now.getMonth()].toUpperCase()} ${now.getDate()}, ${now.getFullYear()}`;
+
+  let isDark = true;
+  document.getElementById('theme-btn').addEventListener('click', () => {
+    isDark = !isDark;
+    document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    document.getElementById('theme-label').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+  });
+</script>
+</body>
+</html>
