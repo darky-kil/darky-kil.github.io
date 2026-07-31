@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio of Nikhil, Mechatronics & Automation undergrad at VIT Chennai specializing in ROS2, Gazebo simulation, embedded systems, and autonomous navigation.">
+  
+  <meta property="og:title" content="Nikhil | Mechatronics & Robotics Portfolio">
+  <meta property="og:description" content="Robotics, ROS2, Gazebo, Embedded Systems & Hardware Simulation.">
+  <meta property="og:type" content="website">
+  <meta property="twitter:card" content="summary_large_image">
+
+  <title>Nikhil | Mechatronics & Robotics Undergraduate</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── THEME TOKENS ─── */
+    :root {
+      --bg: #f4f0e8;
+      --bg2: #ebe6db;
+      --surface: #fff9f0;
+      --border: #2a2a2a;
+      --border-light: #c8c0b0;
+      --text: #1a1a1a;
+      --text-muted: #4a4a4a;
+      --text-faint: #595959;
+      --accent: #1a1a1a;
+      --tag-bg: #e8e0d0;
+      --tag-text: #1a1a1a;
+      --card-bg: #fff9f0;
+      --curtain: #111111;
+      --focus-ring: #005fcc;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Ubuntu Mono', monospace;
+    }
+
+    [data-theme="dark"] {
+      --bg: #111111;
+      --bg2: #181818;
+      --surface: #1e1e1e;
+      --border: #d4cdc0;
+      --border-light: #332f2b;
+      --text: #e8e0d0;          /* Warm off-white / parchment cream */
+      --text-muted: #a8a090;    /* Soft warm muted text */
+      --text-faint: #8a8274;    /* WCAG compliant warm faint text */
+      --accent: #e8e0d0;
+      --tag-bg: #22201d;
+      --tag-text: #d4cdc0;
+      --card-bg: #171614;
+      --curtain: #f4f0e8;
+      --focus-ring: #d4cdc0;
+    }
+
+    /* ─── BASE & ACCESSIBILITY ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    a { color: inherit; text-decoration: none; }
+    
+    /* Focus Ring for Keyboard Navigation */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 3px;
+    }
+
+    /* ─── CURTAIN TRANSITION ─── */
+    #curtain {
+      position: fixed;
+      inset: 0;
+      background: var(--curtain);
+      z-index: 9999;
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+    #curtain.sweeping { animation: curtainDrop 0.6s cubic-bezier(.77,0,.18,1) forwards; }
+    #curtain.rising { animation: curtainRise 0.6s cubic-bezier(.77,0,.18,1) forwards; }
+    @keyframes curtainDrop { 0% { transform: translateY(-100%); } 50%, 100% { transform: translateY(0%); } }
+    @keyframes curtainRise { 0% { transform: translateY(0%); } 100% { transform: translateY(100%); } }
+
+    /* ─── MASTHEAD ─── */
+    .masthead {
+      border-bottom: 3px double var(--border);
+      padding: 0.85rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+      transition: background 0.3s ease;
+    }
+    .masthead-left {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .masthead-logo {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .masthead-logo small {
+      display: block;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    .masthead-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 0.6rem;
+      align-items: center;
+    }
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border-light);
+      padding: 0.35rem 0.65rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-link:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .theme-toggle:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* ─── LAYOUT & CONTAINERS ─── */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    section {
+      padding: 4.5rem 0;
+      border-bottom: 1px solid var(--border-light);
+      scroll-margin-top: 4.5rem;
+    }
+
+    /* ─── TYPOGRAPHY & LABELS ─── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border-light);
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: var(--font-mono);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 2.2rem;
+      color: var(--text);
+    }
+
+    /* ─── HERO ─── */
+    #home {
+      padding: 5.5rem 0 4rem;
+      border-bottom: 3px double var(--border);
+    }
+    .hero-edition {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .hero-edition::before, .hero-edition::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+    .hero-name {
+      font-family: var(--font-mono);
+      font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+    }
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      margin-bottom: 1.5rem;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #2dce5c;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    
+    .hero-tagline {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: var(--text);
+      max-width: 680px;
+    }
+    .hero-bio {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 2.2rem;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-solid {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    .btn-solid:hover { opacity: 0.88; }
+    .btn-outline { background: transparent; color: var(--text); }
+    .btn-outline:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    /* ─── ABOUT SECTION GRID ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .about-text p {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    /* ─── EXPERIENCE & CARDS ─── */
+    .exp-card {
+      border: 1px solid var(--border-light);
+      padding: 1.6rem;
+      margin-bottom: 1.2rem;
+      transition: border-color 0.2s ease;
+      background: var(--card-bg);
+    }
+    .exp-card:hover { border-color: var(--border); }
+    .exp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .exp-company {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .exp-date {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .exp-role {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.6rem;
+    }
+    .exp-type {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-light);
+      padding: 0.2rem 0.5rem;
+      color: var(--text-faint);
+    }
+    /* Restored terminal/mono font for internship descriptions */
+    .exp-desc {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-wrap { margin-top: 1rem; }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      margin-bottom: 0.4rem;
+    }
+    .progress-bar {
+      height: 5px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border-light);
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--text);
+      transition: width 1s ease;
+    }
+
+    /* ─── SOCIALS GRID ─── */
+    .socials-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.2rem;
+    }
+    .social-pill {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-light);
+      padding: 0.45rem 0.85rem;
+      transition: all 0.2s ease;
+      color: var(--text-muted);
+    }
+    .social-pill:hover {
+      border-color: var(--border);
+      color: var(--text);
+      background: var(--tag-bg);
+    }
+
+    /* ─── SKILLS TAGS ─── */
+    .skills-group { margin-bottom: 1.8rem; }
+    .skills-group-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+    }
+    .tag:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    /* ─── PROJECTS ─── */
+    .selected-work {
+      display: grid;
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+    .project-card {
+      border: 1px solid var(--border-light);
+      padding: 2rem;
+      background: var(--card-bg);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .project-card:hover {
+      border-color: var(--border);
+      transform: translateY(-3px);
+    }
+    .project-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .project-name {
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      align-content: start;
+    }
+    .project-chip {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .side-quests-title {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+    }
+    .side-quests-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+    .side-quest-card {
+      border-top: 1px solid var(--border-light);
+      padding-top: 1.25rem;
+    }
+    .side-quest-name {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .side-quest-desc {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+
+    /* ─── PHOTO DUMP CTA ─── */
+    .photodump-cta {
+      border: 1px dashed var(--border);
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      background: var(--card-bg);
+    }
+    .photodump-text strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+    .photodump-text p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── DEBUG DIARIES ─── */
+    .notes-intro {
+      font-family: var(--font-mono);
+      margin-bottom: 2rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.7;
+    }
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.4rem;
+    }
+    .note-card {
+      font-family: var(--font-mono);
+      background: var(--card-bg);
+      border: 1px solid var(--border-light);
+      border-left: 3px solid var(--border);
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .note-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border);
+    }
+    .note-title {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .note-sub {
+      font-family: var(--font-mono);
+      display: block;
+      margin-bottom: 0.8rem;
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      font-style: italic;
+    }
+    .note-desc {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: var(--text-muted);
+    }
+    .note-code {
+      margin-top: 1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border-light);
+      padding: 0.65rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      overflow-x: auto;
+      color: var(--text);
+    }
+    .note-tip {
+      margin-top: 1.2rem;
+      padding-top: 0.8rem;
+      border-top: 1px dashed var(--border-light);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 3px double var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+    .back-to-top {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--border-light);
+      padding: 0.4rem 0.9rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+    .back-to-top:hover {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE DESIGN ─── */
+    @media (max-width: 768px) {
+      .masthead {
+        padding: 0.75rem 1rem;
+      }
+      .masthead-left { display: none; }
+      .nav-links { display: none; }
+      .container { padding: 0 1.2rem; }
+      section { padding: 3rem 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .project-card { grid-template-columns: 1fr; padding: 1.5rem; }
+      .side-quests-grid { grid-template-columns: 1fr; }
+      .photodump-cta { flex-direction: column; align-items: flex-start; }
+      .hero-name { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="curtain" aria-hidden="true"></div>
+
+<header class="masthead">
+  <div class="masthead-left">
+    <span>VIT CHENNAI, INDIA</span> | <span id="edition-date">2026</span>
+  </div>
+
+  <a href="#home" class="masthead-logo">
+    Nikhil
+    <small>Mechatronics Undergrad</small>
+  </a>
+
+  <div class="masthead-right">
+    <nav class="nav-links" aria-label="Main Navigation">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#skills" class="nav-link">Skills</a>
+      <a href="#projects" class="nav-link">Projects</a>
+      <a href="#experience" class="nav-link">Experience</a>
+      <a href="#notes" class="nav-link">Diaries</a>
+    </nav>
+    <button class="theme-toggle" id="theme-btn" aria-label="Toggle visual theme">
+      <span id="theme-label">Light Mode</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section id="home">
+    <div class="container">
+      <div class="hero-edition">ENGINEERING PORTFOLIO | VOL. II | 2026</div>
+      <h1 class="hero-name">Nikhil</h1>
+      
+      <div class="hero-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        Open for Summer Research &amp; Robotics Internships
+      </div>
+
+      <p class="hero-tagline">
+        Mechatronics &amp; Automation Undergrad specializing in ROS2, Gazebo Simulation, and Control Systems.
+      </p>
+      
+      <p class="hero-bio">
+        I am a 2nd-year undergraduate at VIT Chennai focused on robotics, control loops, and embedded system integration. 
+        I build hardware-in-the-loop simulations, tune PID/sensor controllers, and bridge modern web dashboards with ROS2 telemetry.
+      </p>
+
+      <div class="hero-ctas">
+        <a href="mailto:nikhilraj674420@gmail.com" class="btn btn-solid">Send an Email</a>
+        <a href="#projects" class="btn btn-outline">Explore Projects ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-label">About</div>
+      <h2 class="section-title">The Builder</h2>
+
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p>
+            I study Mechatronics &amp; Automation Engineering at VIT Chennai. My technical focus revolves around robotic simulation, control algorithms, and autonomous navigation, primarily working within <strong>ROS2, Gazebo, and MATLAB/Simulink</strong>.
+          </p>
+          <p>
+            I place heavy emphasis on testing software in simulation before flashing hardware. When physical prototypes are required, I work with 3D modeling, microcontrollers like the ESP32 and Raspberry Pi, and embedded sensor integration.
+          </p>
+          <p>
+            I also leverage web stack tools to develop custom Ground Control Station (GCS) dashboards, visualizing sensor telemetry in real time via <code>rosbridge</code>.
+          </p>
+        </div>
+
+        <div>
+          <div class="exp-card">
+            <div class="exp-top">
+              <span class="exp-company">VIT Chennai</span>
+              <span class="exp-date">2025 - 2029</span>
+            </div>
+            <div class="exp-role">B.Tech | Mechatronics &amp; Automation</div>
+            <div class="exp-type">Full-Time Undergraduate</div>
+            
+            <div class="progress-wrap">
+              <div class="progress-label">
+                <span>Degree Progress</span>
+                <span>30%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:30%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="socials-grid">
+            <a href="https://github.com/darky-kil" class="social-pill" target="_blank" rel="noopener noreferrer">⌥ GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/nikhil-raj06/" class="social-pill" target="_blank" rel="noopener noreferrer">⌘ LinkedIn ↗</a>
+            <a href="mailto:nikhilraj674420@gmail.com" class="social-pill">✉ Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="container reveal">
+      <div class="section-label">Capabilities</div>
+      <h2 class="section-title">Technical Stack</h2>
+
+      <div class="skills-group">
+        <div class="skills-group-label">Robotics &amp; Simulation</div>
+        <div class="tags-cloud">
+          <span class="tag">ROS2 Humble</span>
+          <span class="tag">Gazebo Ignition</span>
+          <span class="tag">MATLAB / Simulink</span>
+          <span class="tag">PID Control</span>
+          <span class="tag">Nav2</span>
+          <span class="tag">Foxglove Studio</span>
+        </div>
+      </div>
+
+      <div class="skills-group">
+        <div class="skills-group-label">Embedded Hardware &amp; Prototyping</div>
+        <div class="tags-cloud">
+          <span class="tag">ESP32</span>
+          <span class="tag">Raspberry Pi 4B</span>
+          <span class="tag">RPLiDAR S3</span>
+          <span class="tag">MPU6050 IMU</span>
+          <span class="tag">3D Printing</span>
+          <span class="tag">CAD Modeling</span>
+        </div>
+      </div>
+
+      <div class="skills-group">
+        <div class="skills-group-label">Software &amp; Web Dashboards</div>
+        <div class="tags-cloud">
+          <span class="tag">C++</span>
+          <span class="tag">Python</span>
+          <span class="tag">Linux / WSL2</span>
+          <span class="tag">roslibjs</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="container">
+      <div class="section-label">Featured Work</div>
+      <h2 class="section-title reveal">Selected Projects</h2>
+
+      <div class="selected-work reveal">
+        <article class="project-card">
+          <div class="project-main">
+            <h3 class="project-name">Autonomous Unmanned Surface Vehicle (USV)</h3>
+            <p class="project-desc">
+              Designed an autonomous USV for aquaculture monitoring. Implemented path planning and closed-loop control in ROS2, simulated dynamic aquatic physics in Gazebo, and created a web-based ground control station (GCS) using <code>rosbridge</code> and <code>roslibjs</code>.
+            </p>
+            <a href="https://github.com/darky-kil" class="btn btn-outline" target="_blank" rel="noopener noreferrer">View Repository ↗</a>
+          </div>
+          <div class="project-meta">
+            <span class="project-chip">ROS2</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">Gazebo</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">Raspberry Pi</span>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-main">
+            <h3 class="project-name">Two-Wheeled Self-Balancing Robot</h3>
+            <p class="project-desc">
+              Constructed an inverted pendulum balancing robot powered by an ESP32 microcontroller and an MPU6050 IMU. Developed real-time complementary filtering and tuned PID loops to achieve stable upright equilibrium.
+            </p>
+            <a href="https://github.com/darky-kil" class="btn btn-outline" target="_blank" rel="noopener noreferrer">View Repository ↗</a>
+          </div>
+          <div class="project-meta">
+            <span class="project-chip">ESP32</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">MPU6050</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">PID Control</span>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-main">
+            <h3 class="project-name">SureStep32: Wearable Blind Navigator</h3>
+            <p class="project-desc">
+              An ankle-mounted assistive wearable designed to detect low-lying obstacles. Utilizes ultrasonic sensors connected to an ESP32 to provide directional haptic feedback to visually impaired users.
+            </p>
+            <a href="https://github.com/darky-kil" class="btn btn-outline" target="_blank" rel="noopener noreferrer">View Repository ↗</a>
+          </div>
+          <div class="project-meta">
+            <span class="project-chip">ESP32</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">Ultrasonic</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">Haptics</span>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="project-main">
+            <h3 class="project-name">Computer Vision Posture Lamp</h3>
+            <p class="project-desc">
+              An intelligent desk lamp system integrating laptop webcam vision with an ESP32 dimming controller. Analyzes user slouching via pose detection and triggers dynamic lamp dimming as an ambient reminder.
+            </p>
+            <a href="https://github.com/darky-kil" class="btn btn-outline" target="_blank" rel="noopener noreferrer">View Repository ↗</a>
+          </div>
+          <div class="project-meta">
+            <span class="project-chip">OpenCV</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">Python</span>
+            <span class="project-chip">•</span>
+            <span class="project-chip">ESP32</span>
+          </div>
+        </article>
+      </div>
+
+      <h3 class="side-quests-title reveal">Side Quests &amp; Interfaces</h3>
+      <div class="side-quests-grid reveal">
+        <div class="side-quest-card">
+          <h4 class="side-quest-name">Zerodha Trading Dashboard</h4>
+          <p class="side-quest-desc">A functional React dashboard exploring clean UI architectures, real-time data streaming layout design, and smooth user interactions.</p>
+        </div>
+        <div class="side-quest-card">
+          <h4 class="side-quest-name">Movie Genre Predictor</h4>
+          <p class="side-quest-desc">Machine learning classification script predicting media preferences based on linguistic dataset parameters.</p>
+        </div>
+        <div class="side-quest-card">
+          <h4 class="side-quest-name">Automated Day Scheduler</h4>
+          <p class="side-quest-desc">Utility application automating daily schedule optimization and academic timetable synchronization.</p>
+        </div>
+      </div>
+
+      <div class="photodump-cta reveal">
+        <div class="photodump-text">
+          <strong>📷 The Photo Dump</strong>
+          <p>Behind-the-scenes laboratory builds, 3D printing failures, and visual progress photos.</p>
+        </div>
+        <a href="photo-dump.html" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Open Gallery ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="container">
+      <div class="section-label">Credentials</div>
+      <h2 class="section-title reveal">Research &amp; Experience</h2>
+
+      <div class="reveal">
+        <article class="exp-card">
+          <div class="exp-top">
+            <div>
+              <div class="exp-company">NIT Patna</div>
+              <div class="exp-role">Summer Research Intern | Dept. of Mechatronics &amp; Automation</div>
+            </div>
+            <div>
+              <div class="exp-date">Summer 2026</div>
+              <span class="exp-type">Research Internship</span>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Developed an autonomous Unmanned Surface Vehicle (USV) for aquaculture monitoring. Implemented ROS2 Humble on a Raspberry Pi 4B interfaced with an RPLiDAR S3, MPU6050, and an ESP32 processing analog pH/TDS/DO sensor arrays. Simulated differential thruster dynamics in Gazebo Ignition and built a web-based ground control station via rosbridge.
+          </p>
+          <div class="tags-cloud">
+            <span class="tag">ROS2</span>
+            <span class="tag">USV</span>
+            <span class="tag">Gazebo Ignition</span>
+            <span class="tag">Autonomous Navigation</span>
+          </div>
+        </article>
+
+        <article class="exp-card">
+          <div class="exp-top">
+            <div>
+              <div class="exp-company">Kodacy × SPACE</div>
+              <div class="exp-role">Robotics Virtual Intern</div>
+            </div>
+            <div>
+              <div class="exp-date">July 2025</div>
+              <span class="exp-type">Virtual Internship</span>
+            </div>
+          </div>
+          <p class="exp-desc">
+            Completed intensive hands-on modules in foundational robotics design, sensor-actuator interfacing, and automated logic circuits. Gained direct exposure to practical system assembly and hardware debugging principles.
+          </p>
+          <div class="tags-cloud">
+            <span class="tag">Robotics</span>
+            <span class="tag">Automation</span>
+            <span class="tag">Systems Design</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="notes">
+    <div class="container">
+      <div class="section-label">Engineering Journal</div>
+      <h2 class="section-title reveal">Debug Diaries</h2>
+      <p class="notes-intro">
+        Practical engineering takeaways from system bugs that cost hours to diagnose.
+      </p>
+
+      <div class="notes-grid reveal">
+        <article class="note-card">
+          <div>
+            <h3 class="note-title">The Beeping BLDC ESC Mystery</h3>
+            <span class="note-sub">Hardware / PWM Initialization</span>
+            <p class="note-desc">
+              Powered up the BLDC and it just... beeped, like a time bomb.
+            I spent hours assuming I'd broken something.
+            Turns out the ESC was simply waiting for a valid PWM signal before arming.
+            </p>
+          </div>
+        </article>
+
+        <article class="note-card">
+          <div>
+            <h3 class="note-title">WSL2 UDP Firewall Blocking ROS2</h3>
+            <span class="note-sub">Networking / DDS Discovery</span>
+            <p class="note-desc">
+              ROS2 nodes running in WSL refused to find Windows.
+            After checking DDS settings, networking and environment variables...
+            it was Windows Firewall blocking UDP.
+            </p>
+            <div class="note-code">New-NetFirewallRule -DisplayName "Allow ROS2 WSL" -Direction Inbound -Action Allow -Protocol UDP</div>
+          </div>
+        </article>
+
+        <article class="note-card">
+          <div>
+            <h3 class="note-title">Gazebo Sensor Plugin Calibration</h3>
+            <span class="note-sub">Simulation vs Reality</span>
+            <p class="note-desc">
+              I expected sensor simulation to be complicated.
+            Instead, attaching a plugin and placing it correctly was enough to
+            give my robot cameras, LiDARs, IMUs and GPS.
+            </p>
+          </div>
+          
+        </article>
+
+        <article class="note-card">
+          <div>
+            <h3 class="note-title">Inverted Pendulum PID Tuning</h3>
+            <span class="note-sub">Control Systems</span>
+            <p class="note-desc">
+              Every initial PID tuning attempt ended in violent oscillations or immediate crashes. 
+              Balancing derivative gain Kd to dampen angular acceleration proved far more critical
+               than aggressive proportional Kp response.
+            </p>
+          </div>
+          
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <a href="#home" class="back-to-top">↑ Back to Top</a>
+    <p class="footer-text">© 2026 Nikhil | Built from Chennai, India</p>
+  </div>
+</footer>
+
+<script>
+  /* ─── MASTHEAD DATE ─── */
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const now = new Date();
+  document.getElementById('edition-date').textContent = `${months[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+
+  /* ─── THEME TOGGLE WITH LOCALSTORAGE PERSISTENCE ─── */
+  const themeBtn = document.getElementById('theme-btn');
+  const themeLabel = document.getElementById('theme-label');
+  const curtain = document.getElementById('curtain');
+  
+  // Check stored theme or system preference
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+  // Set initial state
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  themeLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+
+  let toggling = false;
+  themeBtn.addEventListener('click', toggleTheme);
+
+  function toggleTheme() {
+    if (toggling) return;
+    toggling = true;
+
+    // Sweep curtain down
+    curtain.className = 'sweeping';
+    
+    setTimeout(() => {
+      isDark = !isDark;
+      const theme = isDark ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeLabel.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+
+      // Sweep curtain up
+      curtain.className = 'rising';
+      setTimeout(() => {
+        curtain.className = '';
+        toggling = false;
+      }, 600);
+    }, 300);
+  }
+
+  /* ─── SCROLL REVEAL OBSERVER ─── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
